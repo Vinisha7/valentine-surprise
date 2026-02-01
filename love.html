@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Special Surprise 💖</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background: url("love.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ENTRY OVERLAY */
+#entry-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: pointer;
+  transition: opacity 0.8s ease;
+}
+
+#entry-overlay h1 {
+  color: white;
+  font-size: 36px;
+  margin-top: 20px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(255,100,150,0.8);
+}
+
+.floating-heart {
+  font-size: 80px;
+  animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.25); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.15); }
+}
+
+/* MAIN BOX */
+.container {
+  background: rgba(0,0,0,0.55);
+  padding: 30px 40px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  max-width: 400px;
+  backdrop-filter: blur(6px);
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* BUTTONS */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+button {
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+  z-index: 2;
+}
+
+#noBtn {
+  background: #e5e5e5;
+  color: #333;
+  position: relative;
+}
+
+/* CELEBRATION */
+#celebration {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+.success-title {
+  font-size: 55px;
+  background: linear-gradient(90deg,#fff,#ffafcc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+}
+
+/* HEARTS */
+.heart {
+  position: fixed;
+  top: -10vh;
+  font-size: 24px;
+  animation: fall 4s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* SHAKE */
+.sad {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+.copyright {
+  position: fixed;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+  z-index: 5;
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENTRY SCREEN -->
+<div id="entry-overlay" onclick="openSurprise()">
+  <div class="floating-heart">❤️</div>
+  <h1>Click to Open Your Surprise</h1>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container" id="box">
+  <h1>Will you be my Valentine? 💌</h1>
+  <p>Please think once 🥺</p>
+
+  <div class="buttons">
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">NO 🐒</button>
+  </div>
+</div>
+
+<!-- CELEBRATION -->
+<div id="celebration">
+  <div class="success-title">Then see y♡u on Feb 14th💖</div>
+  <p>🎶 Mastaaru Mastaaru… 🎶</p>
+</div>
+
+<!-- AUDIO -->
+<audio id="song" src="Mastaaru Mastaaru.mp3" preload="auto"></audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const box = document.getElementById("box");
+const celebration = document.getElementById("celebration");
+const song = document.getElementById("song");
+const overlay = document.getElementById("entry-overlay");
+
+let noCount = 0;
+
+const noTexts = [
+  "Anthena??",
+  "Badha Aithaledha??",
+  "Please? 🥺",
+  "Ila cheyyakandi",
+  "I'm gonna cry!",
+  "Nen ediste miru tattukogalgutara?",
+  "Mari nduku wrong button click chestunnaru?",
+  "Mind change cheseskunnara?"
+];
+
+/* OPEN OVERLAY */
+function openSurprise() {
+  overlay.style.opacity = "0";
+  setTimeout(() => overlay.style.display = "none", 800);
+}
+
+/* NO BUTTON */
+function moveNo() {
+  noBtn.textContent = noTexts[noCount % noTexts.length];
+  noCount++;
+
+  noBtn.style.left = Math.random() * 260 + "px";
+  noBtn.style.top = Math.random() * 90 + "px";
+
+  box.classList.add("sad");
+  setTimeout(() => box.classList.remove("sad"), 400);
+}
+
+/* YES BUTTON — SONG PLAYS HERE ONLY */
+function yesClicked() {
+  song.volume = 0.8;
+  song.play();
+
+  celebration.style.display = "flex";
+
+  for (let i = 0; i < 25; i++) {
+    setTimeout(createHeart, i * 150);
+  }
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("click", moveNo);
+yesBtn.addEventListener("click", yesClicked);
+
+</script>
+
+</body>
+<footer class="copyright">
+  © <span id="year"></span> Made with ❤️ just for you - Vinisha Ponniganti 🎀
+</footer>
+
+</html>
